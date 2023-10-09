@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8658508426322618274}
   - component: {fileID: 970344375742645805}
   m_Layer: 0
-  m_Name: Image
+  m_Name: HighlightBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -392,11 +392,11 @@ MonoBehaviour:
   sequenceValues:
   - {fileID: 0}
   - {fileID: 0}
-  lowerThreshold: 2
-  upperThreshold: 2
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
+  lowerThreshold: 2
+  upperThreshold: 2
   iconSprite: {fileID: 0}
   seqName: DefaultName
   desc: DefaultDesc
@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 5653843013740970568}
   - component: {fileID: 8294588036903401916}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ResultText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

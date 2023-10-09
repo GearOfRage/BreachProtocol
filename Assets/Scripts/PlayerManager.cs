@@ -7,8 +7,10 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager _instance;
-    public int money = 0;
-    private TextMeshProUGUI moneyText;
+    public int score = 0;
+    public float defaultTime = 30f;
+    public float nextTime;
+    [SerializeField] private TextMeshProUGUI moneyText;
 
     private void Start()
     {
@@ -16,10 +18,12 @@ public class PlayerManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        nextTime = defaultTime;
     }
 
     public void UpdateVisuals()
     {
-        moneyText.text = money + " €$";
+        moneyText.text = score + " €$";
     }
 }

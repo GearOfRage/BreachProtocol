@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class Generator : MonoBehaviour
 {
-    private int matrixSize = 7;
+    [SerializeField]private int matrixSize = 7;
 
     private string[] possibleCombinations =
     {
@@ -39,28 +39,74 @@ public class Generator : MonoBehaviour
     public void GenerateMatrix()
     {
         Utility.DestroyAllChildren(GameMaster._instance.matrixHolder);
-        
-        int rnd = Random.Range(5, 6);
-        List<int> rndIndexes = new List<int>();
 
-        for (int i = rnd; i > 0; i--)
+        //Picking unique value combination
+        int rnd = Random.Range(5, 7);
+        int[] rndIndexes = new int[rnd];
+
+        for (int i = 0; i < rnd; i++)
         {
             int index = Random.Range(0, possibleCombinations.Length);
             if (rndIndexes.Contains(index))
             {
-                i++;
+                i--;
             }
             else
             {
-                rndIndexes.Add(index);
+                rndIndexes[i] = index;
             }
         }
 
-        foreach (var item in rndIndexes)
+        selectedCombinations.Clear();
+        foreach (int item in rndIndexes)
         {
             selectedCombinations.Add(possibleCombinations[item]);
         }
 
+        //Building fake matrix(array). Ensuring playability.
+        
+        float evenlyDistributedPercentage = 0.5f; // Percentage of first array to be evenly distributed
+        int resultArraySize = matrixSize * matrixSize; // Size of the result array
+        
+        // Calculate the number of elements from the original array to be evenly distributed
+        int evenlyDistributedCount = Mathf.FloorToInt(evenlyDistributedPercentage * resultArraySize);
+
+        // Calculate the number of elements to be randomly distributed
+        int randomlyDistributedCount = resultArraySize - evenlyDistributedCount;
+
+        // Create arrays for even and random distribution
+        string[] evenlyDistributedValues = new string[evenlyDistributedCount];
+        string[] randomlyDistributedValues = new string[randomlyDistributedCount];
+
+        // Fill the evenly distributed values array
+        for (int i = 0; i < evenlyDistributedCount; i++)
+        {
+            evenlyDistributedValues[i] = selectedCombinations[i % selectedCombinations.Count];
+        }
+
+        // Fill the randomly distributed values array
+        for (int i = 0; i < randomlyDistributedCount; i++)
+        {
+            int randomIndex = Random.Range(0, selectedCombinations.Count);
+            randomlyDistributedValues[i] = selectedCombinations[randomIndex];
+        }
+
+        // Combine the even and random distribution arrays into the result array
+        string[] resultArray = new string[resultArraySize];
+        System.Array.Copy(evenlyDistributedValues, resultArray, evenlyDistributedCount);
+        System.Array.Copy(randomlyDistributedValues, 0, resultArray, evenlyDistributedCount, randomlyDistributedCount);
+
+        //Shuffling of values
+        
+        int n = resultArray.Length;
+        for (int i = 0; i < n; i++)
+        {
+            int randomIndex = Random.Range(i, n);
+            (resultArray[i], resultArray[randomIndex]) = (resultArray[randomIndex], resultArray[i]); //swap via deconstruction
+        }
+        
+        //Instantiating game objects
+        int counter = 0;
         for (int i = 0; i < matrixSize; i++)
         {
             for (int j = 0; j < matrixSize; j++)
@@ -68,14 +114,15 @@ public class Generator : MonoBehaviour
                 GameObject newMatrixValueObj = Instantiate(GameMaster._instance.matrixValuePrefab,
                     GameMaster._instance.matrixHolder.transform);
                 MatrixValue newMatrixValue = newMatrixValueObj.GetComponent<MatrixValue>();
-                newMatrixValue.value = selectedCombinations[Random.Range(0, selectedCombinations.Count)];
+                newMatrixValue.value = resultArray[counter];
                 newMatrixValue.OnClickEvent += GameMaster._instance.HandleMatrixClick;
                 newMatrixValue.row = i;
                 newMatrixValue.column = j;
                 newMatrixValue.UpdateInstance();
                 GameMaster._instance.matrix[i, j] = newMatrixValueObj;
+
+                counter++;
             }
-            
         }
         //Debug.Log("Matrix generation is done!");
     }
@@ -89,7 +136,7 @@ public class Generator : MonoBehaviour
         GameMaster._instance.availableSequences.Add(seqComp);
 
         Utility.DestroyAllChildren(seqComp.valueHolderObj);
-        
+
         //Debug.Log(seqComp.seqName + " generation is done!");
     }
 }

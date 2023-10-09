@@ -68,6 +68,8 @@ public class GameMaster : MonoBehaviour
             _instance = this;
         }
 
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        
         sequencesPrefabs.Add(basicSequencePrefab);
         sequencesPrefabs.Add(advancedSequencePrefab);
         sequencesPrefabs.Add(expertSequencePrefab);
@@ -144,13 +146,12 @@ public class GameMaster : MonoBehaviour
 
     private IEnumerator StartCountdown()
     {
-        float countdownTime = 30.0f;
+        float countdownTime = PlayerManager._instance.nextTime;
         float currentTime = 0f;
         currentTime = countdownTime;
 
         Image img = timerBar.GetComponent<Image>();
 
-        CultureInfo.CurrentCulture = new CultureInfo("en-US");
 
         while (currentTime > 0)
         {
@@ -161,13 +162,16 @@ public class GameMaster : MonoBehaviour
             // Decrease the current time by Time.deltaTime
             currentTime -= Time.deltaTime;
 
-            if (isBreachEnded) break;
+            if (isBreachEnded)
+            {
+                PlayerManager._instance.nextTime = currentTime;
+                break;
+            }
 
             yield return null; // Wait for the next frame
         }
 
         // When the countdown reaches 0 or less, you can perform any desired action.
-        timerText.text = "0.00"; // Ensure the text displays "0.00" when the countdown finishes.
         if (!isBreachEnded)
         {
             ShowResultPanel(false);
@@ -305,12 +309,15 @@ public class GameMaster : MonoBehaviour
         if (result)
         {
             resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.greenLight,
-                ColorPalette._instance.greenDark);
+                ColorPalette._instance.greenDark, PlayerManager._instance.score);
         }
         else
         {
             resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.redLight,
-                ColorPalette._instance.redDark);
+                ColorPalette._instance.redDark, 0);
+
+            PlayerManager._instance.score = 0;
+            PlayerManager._instance.UpdateVisuals();
         }
     }
 
@@ -337,7 +344,7 @@ public class GameMaster : MonoBehaviour
         GetComponent<Generator>().GenerateAll();
 
         timerBar.GetComponent<Image>().fillAmount = 1f;
-        timerText.text = "30.00";
+        timerText.text = PlayerManager._instance.nextTime.ToString("F2");
 
         bufferUsed = 0;
         List<GameObject> bufferValues = Utility.GetChildren(buffer);

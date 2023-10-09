@@ -18,24 +18,27 @@ public class Sequence : MonoBehaviour
 {
     public List<SequenceValue> sequenceValues;
 
-    [SerializeField] public int lowerThreshold = 2;
-    [SerializeField] public int upperThreshold = 2;
 
     private int minLenght = 2;
     private int maxLenght = 8;
 
-    public int currentLenght = 2;
+    [HideInInspector] public int currentLenght = 2;
 
     private SequenceValue previousValue;
 
-    public bool isCompleted = false;
-    public SequenceState sequenceState = SequenceState.InProgress;
+    [HideInInspector] public bool isCompleted = false;
+    [HideInInspector] public SequenceState sequenceState = SequenceState.InProgress;
 
-    [SerializeField] private Sprite iconSprite;
+    [Header("Required to fill")] [Header("Threshold")] [SerializeField]
+    public int lowerThreshold = 2;
+
+    [SerializeField] public int upperThreshold = 2;
+
+    [Header("Details")] [SerializeField] private Sprite iconSprite;
     [SerializeField] public string seqName;
     [SerializeField] private string desc;
 
-    [SerializeField] private Image imageObj;
+    [Header("Objects")] [SerializeField] private Image imageObj;
     [SerializeField] private TextMeshProUGUI nameObj;
     [SerializeField] private TextMeshProUGUI descObj;
     [SerializeField] private TextMeshProUGUI resultText;
@@ -45,7 +48,6 @@ public class Sequence : MonoBehaviour
 
     private void Start()
     {
-        valueHolderObj = transform.GetChild(1).gameObject;
         imageObj.sprite = iconSprite;
         nameObj.text = seqName;
         descObj.text = desc;
@@ -55,6 +57,7 @@ public class Sequence : MonoBehaviour
     {
         sequenceValues.Clear();
         currentLenght = Random.Range(lowerThreshold, upperThreshold + 1);
+        Generator gen = GameMaster._instance.GetComponent<Generator>();
         for (int i = 0; i < currentLenght; i++)
         {
             GameObject newSequenceValue =
@@ -62,12 +65,7 @@ public class Sequence : MonoBehaviour
             sequenceValues.Add(newSequenceValue.GetComponent<SequenceValue>());
 
             newSequenceValue.GetComponent<SequenceValue>().value =
-                GameMaster._instance.GetComponent<Generator>().selectedCombinations[
-                    UnityEngine.Random.Range(0,
-                        GameMaster._instance.GetComponent<Generator>().selectedCombinations.Count)];
-            // int rndIndex = Random.Range(0, 49);
-            // string v = Utility.GetChildren(GameMaster._instance.matrixHolder)[rndIndex].GetComponent<MatrixValue>().value;
-            // newSequenceValue.GetComponent<SequenceValue>().value = v;
+                gen.selectedCombinations[Random.Range(0, gen.selectedCombinations.Count)];
         }
 
         previousValue = sequenceValues[0];
@@ -96,6 +94,8 @@ public class Sequence : MonoBehaviour
         valueHolderObj.SetActive(false);
         highlightBlock.SetActive(true);
         GameMaster._instance.CheckWinLoseConditions();
+
+        Effect();
     }
 
     public void ChangeToNegative()
@@ -121,36 +121,47 @@ public class Sequence : MonoBehaviour
     {
         if (sequenceState == SequenceState.InProgress)
         {
+            HandlePositionChange(50f);
+            int pickedCounter = 0;
             for (int i = 0; i < sequenceValues.Count; i++)
             {
-                int pickedCounter = 0;
                 if (sequenceValues[i].b.interactable)
                 {
                     if (sequenceValues[i].value == matrixValue.value)
                     {
-                        pickedCounter++;
                         sequenceValues[i].PickValue();
                         previousValue = sequenceValues[i];
+                        pickedCounter++;
                     }
                     else
                     {
-                        HandlePositionChange(-50f * pickedCounter);
                         if (previousValue.value != matrixValue.value)
                         {
                             foreach (SequenceValue itemJ in sequenceValues)
                             {
-                                itemJ.DropValue();
+                                if(!itemJ.b.interactable)
+                                {
+                                    HandlePositionChange(50f);
+                                    itemJ.DropValue();
+                                }
                             }
                         }
-                        // else
-                        // {
-                        //     HandlePositionChange(-50f * pickedCounter);
-                        // }
+                        else
+                        {
+                            if (sequenceValues[i].value == matrixValue.value)
+                            {
+                                pickedCounter++;
+                            }
+
+                            HandlePositionChange(50f * pickedCounter + 1);
+                        }
                     }
 
                     break;
                 }
             }
+
+            HandlePositionChange(-50f * pickedCounter);
         }
 
         int counter = 0;
@@ -168,24 +179,26 @@ public class Sequence : MonoBehaviour
                 }
             }
         }
-        
+
         //Buffer checking
         if (sequenceState == SequenceState.InProgress)
         {
             int bufferLeft = GameMaster._instance.bufferSize - GameMaster._instance.bufferUsed;
-            if (bufferLeft + counter < currentLenght )
+            if (bufferLeft + counter < currentLenght)
             {
                 ChangeToNegative();
             }
         }
     }
 
-    public void HandlePositionChange(float step)
+    private void HandlePositionChange(float step)
     {
-        float padding = 42.5f;
-
         Vector3 move = valueHolderObj.transform.localPosition;
-        move.x = GameMaster._instance.sequenceHighlight.GetComponent<RectTransform>().anchoredPosition.x - padding + step;
+        move.x += step;
         valueHolderObj.transform.localPosition = move;
+    }
+
+    public virtual void Effect()
+    {
     }
 }
