@@ -11,8 +11,11 @@ public class AdvancedDataExtractionScript : Sequence
     
     public override void Effect()
     {
-        PlayerManager._instance.score += currentMoney;
-        PlayerManager._instance.UpdateVisuals();
-        PlayerManager._instance.nextTime = Math.Clamp(PlayerManager._instance.nextTime + restoreTime, restoreTime, PlayerManager._instance.defaultTime);
+        PlayerManager player = PlayerManager._instance;
+        player.score += currentMoney;
+        player.UpdateVisuals();
+        
+        player.nextTime += Math.Clamp(PlayerManager._instance.nextTime + restoreTime, restoreTime, PlayerManager._instance.defaultTime);
+        player.nextTime = Math.Clamp(restoreTime, restoreTime, PlayerManager._instance.defaultTime);
     }
 }

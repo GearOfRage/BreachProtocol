@@ -15,7 +15,7 @@ public class ColorPalette : MonoBehaviour
     [SerializeField] public Color redLight;
     [SerializeField] public Color redDark;
 
-    private void Start()
+    private void Awake()
     {
         if (_instance == null)
         {

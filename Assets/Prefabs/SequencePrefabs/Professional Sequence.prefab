@@ -9,35 +9,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: desc
-      value: "Extract 500 \u20AC$"
+      value: "Extract 1500 \u20AC$"
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: name
-      value: Exper data extraction
+      value: Professional data extraction
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: seqName
-      value: Expert data extraction
+      value: Datamine.V4
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: iconSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b047f4f7fcdf37841aaf036b1e76cbd6, type: 3}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: lowerTreshold
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: upperTreshold
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: lowerThreshold
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: upperThreshold
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7597264177232793208, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_Pivot.x
@@ -125,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7597264177232793211, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_Name
-      value: Expert Sequence
+      value: Professional Sequence
       objectReference: {fileID: 0}
     - target: {fileID: 8529619669180596927, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_AnchorMax.y
@@ -175,93 +171,5 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
---- !u!114 &232328418206432928 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8294588036903401916, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1822771665200564628 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7597264176973975176, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1822771665597208902 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7597264177642167898, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1822771665772860538 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7597264177466512230, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1822771666015095143 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7597264177232793211, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7212013446720356203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822771666015095143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6465bb34231db2746bd84efc8c474470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sequenceValues: []
-  currentLenght: 2
-  isCompleted: 0
-  sequenceState: 0
-  lowerThreshold: 4
-  upperThreshold: 4
-  iconSprite: {fileID: 21300000, guid: b047f4f7fcdf37841aaf036b1e76cbd6, type: 3}
-  seqName: Expert data extraction
-  desc: "Extract 500 \u20AC$"
-  imageObj: {fileID: 1822771665597208902}
-  nameObj: {fileID: 1822771665200564628}
-  descObj: {fileID: 1822771665772860538}
-  resultText: {fileID: 232328418206432928}
-  valueHolderObj: {fileID: 1822771666748546970}
-  highlightBlock: {fileID: 8622960863219599676}
-  defaultMoney: 500
---- !u!1 &1822771666748546970 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7597264176490829958, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8622960863219599676 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 544873568399527456, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-  m_PrefabInstance: {fileID: 8080916407081551644}
-  m_PrefabAsset: {fileID: 0}

@@ -200,5 +200,6 @@ public class Sequence : MonoBehaviour
 
     public virtual void Effect()
     {
+        
     }
 }

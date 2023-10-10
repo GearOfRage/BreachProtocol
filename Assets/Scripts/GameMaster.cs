@@ -25,21 +25,18 @@ public class GameMaster : MonoBehaviour
 
     [SerializeField] public GameObject matrixHolder;
     [SerializeField] public GameObject sequencesHolder;
+    [SerializeField] public GameObject securityProtocolsHolder;
 
     [SerializeField] public GameObject resultPanel;
-
+    [SerializeField] public GameObject securityProtocolsPanel;
+    [SerializeField] public TextMeshProUGUI layerText;
     [SerializeField] public GameObject buffer;
 
     [SerializeField] public GameObject horizontalHighlight;
     [SerializeField] public GameObject verticalHighlight;
     [SerializeField] public GameObject sequenceHighlight;
 
-    [SerializeField] public TextMeshProUGUI timerText;
-    [SerializeField] public GameObject timerBar;
-
-
-    private bool isTimerStarted = false;
-    private bool isBreachEnded = false;
+    public bool isBreachEnded = false;
 
     public bool atLeastOneSequenceIsCompleted = false;
 
@@ -51,14 +48,20 @@ public class GameMaster : MonoBehaviour
     public int bufferSize = 7; //starts from 0, 7 means 8 cells in buffer
     public int bufferUsed = 0;
 
-    private static int matrixSize = 7;
+    private int level = 1;
+
+    public static int matrixSize = 7;
     public GameObject[,] matrix = new GameObject[matrixSize, matrixSize];
 
     public List<Sequence> availableSequences = new List<Sequence>();
+    public List<SecurityProtocol> availableSecurityProtocols = new List<SecurityProtocol>();
     public List<GameObject> sequencesPrefabs = new List<GameObject>();
+    public List<GameObject> securityProtocolsPrefabs = new List<GameObject>();
 
     private Vector3 horizontalDefaultPosition;
     private Vector3 sequenceHighlightDefaultPosition;
+
+    private Generator generator;
 
     // Start is called before the first frame update
     void Start()
@@ -68,17 +71,33 @@ public class GameMaster : MonoBehaviour
             _instance = this;
         }
 
+        
+        generator = GetComponent<Generator>();
+        
+        layerText.text = "Layer " + level;
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
         
         sequencesPrefabs.Add(basicSequencePrefab);
         sequencesPrefabs.Add(advancedSequencePrefab);
         sequencesPrefabs.Add(expertSequencePrefab);
-        GetComponent<Generator>().GenerateAll();
+        generator.GenerateAll();
 
         horizontalDefaultPosition = horizontalHighlight.transform.localPosition;
         sequenceHighlightDefaultPosition = sequenceHighlight.transform.localPosition;
 
         HandleMatrixValuesInteractability();
+        
+        Utility.DestroyAllChildren(securityProtocolsHolder);
+            
+        //Security protocols
+        //Only for immediate effects
+        if (availableSecurityProtocols.Count > 0)
+        {
+            foreach (SecurityProtocol item in availableSecurityProtocols)
+            {
+                item.Effect();
+            }
+        }
     }
 
     public void HandleMatrixClick(GameObject sender)
@@ -97,10 +116,9 @@ public class GameMaster : MonoBehaviour
 
         matrixValue.b.interactable = false;
 
-        if (!isTimerStarted)
+        if (!TimerController._instance.isTimerStarted)
         {
-            isTimerStarted = true;
-            StartCoroutine(StartCountdown());
+            StartCoroutine(TimerController._instance.StartCountdown());
         }
 
         switch (line)
@@ -142,40 +160,6 @@ public class GameMaster : MonoBehaviour
         }
         
         CheckWinLoseConditions();
-    }
-
-    private IEnumerator StartCountdown()
-    {
-        float countdownTime = PlayerManager._instance.nextTime;
-        float currentTime = 0f;
-        currentTime = countdownTime;
-
-        Image img = timerBar.GetComponent<Image>();
-
-
-        while (currentTime > 0)
-        {
-            // Update the Text component with the current time
-            timerText.text = currentTime.ToString("F2"); // Display time with two decimal place
-
-            img.fillAmount = currentTime / countdownTime;
-            // Decrease the current time by Time.deltaTime
-            currentTime -= Time.deltaTime;
-
-            if (isBreachEnded)
-            {
-                PlayerManager._instance.nextTime = currentTime;
-                break;
-            }
-
-            yield return null; // Wait for the next frame
-        }
-
-        // When the countdown reaches 0 or less, you can perform any desired action.
-        if (!isBreachEnded)
-        {
-            ShowResultPanel(false);
-        }
     }
 
     void HandleMatrixValuesInteractability()
@@ -287,6 +271,7 @@ public class GameMaster : MonoBehaviour
         }
         if (counterFailed == availableSequences.Count)
         {
+            level = 0;
             ShowResultPanel(false);
             isBreachEnded = true;
             DisableAllMatrixValueInteractability();
@@ -294,7 +279,7 @@ public class GameMaster : MonoBehaviour
         
     }
 
-    private void ShowResultPanel(bool result)
+    public void ShowResultPanel(bool result)
     {
         resultPanel.SetActive(true);
 
@@ -309,13 +294,16 @@ public class GameMaster : MonoBehaviour
         if (result)
         {
             resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.greenLight,
-                ColorPalette._instance.greenDark, PlayerManager._instance.score);
+                ColorPalette._instance.greenDark, 0);
         }
         else
         {
             resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.redLight,
-                ColorPalette._instance.redDark, 0);
+                ColorPalette._instance.redDark, PlayerManager._instance.score);
 
+            Utility.DestroyAllChildren(securityProtocolsHolder);
+            securityProtocolsHolder.SetActive(false);
+            PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
             PlayerManager._instance.UpdateVisuals();
         }
@@ -341,20 +329,23 @@ public class GameMaster : MonoBehaviour
         horizontalHighlight.SetActive(true);
         verticalHighlight.SetActive(false);
 
-        GetComponent<Generator>().GenerateAll();
+        generator.GenerateAll();
 
-        timerBar.GetComponent<Image>().fillAmount = 1f;
-        timerText.text = PlayerManager._instance.nextTime.ToString("F2");
+        TimerController._instance.timerBar.GetComponent<Image>().fillAmount = 1f;
+        TimerController._instance.timerText.text = PlayerManager._instance.nextTime.ToString("F2");
+        TimerController._instance.isTimerStarted = false;
 
         bufferUsed = 0;
+        level++;
+        layerText.text = "Layer " + level;
         List<GameObject> bufferValues = Utility.GetChildren(buffer);
         foreach (GameObject item in bufferValues)
         {
             item.GetComponent<BufferValue>().ClearValue();
         }
 
-        isTimerStarted = false;
         isBreachEnded = false;
+        PlayerManager._instance.currentTime = PlayerManager._instance.nextTime;
 
         horizontalHighlight.transform.localPosition = horizontalDefaultPosition;
         sequenceHighlight.transform.localPosition = sequenceHighlightDefaultPosition;
@@ -363,5 +354,24 @@ public class GameMaster : MonoBehaviour
         activeRow = 0;
         activeColumn = 0;
         HandleMatrixValuesInteractability();
+
+        if (level == 5)
+        {
+            securityProtocolsPanel.SetActive(true);
+        }
+        if (level % 5 == 0 && availableSecurityProtocols.Count <= 2)
+        {
+            generator.GenerateSecurityProtocols(securityProtocolsPrefabs);
+        }
+        
+        //Security protocols
+        //Only for immediate effects
+        if (availableSecurityProtocols.Count > 0)
+        {
+            foreach (SecurityProtocol item in availableSecurityProtocols)
+            {
+                item.Effect();
+            }
+        }
     }
 }

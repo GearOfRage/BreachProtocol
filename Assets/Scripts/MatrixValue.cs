@@ -15,6 +15,7 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler
     public int column;
 
     public string value;
+    private Color defaultColor;
 
     public Action<GameObject> OnClickEvent;
 
@@ -22,16 +23,26 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler
     public Button b;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        UpdateInstance();
-    }
-
-    public void UpdateInstance()
+    void Awake()
     {
         highlight = transform.GetChild(0).gameObject;
+        defaultColor = ColorPalette._instance.yellowLight;
         t = transform.GetComponentInChildren<TextMeshProUGUI>();
         b = GetComponent<Button>();
+        
+        UpdateInstance(value, defaultColor);
+    }
+
+    public void UpdateInstance(string newText, Color newColor)
+    {
+        value = newText;
+        t.text = value;
+        t.color = newColor;
+    }
+    
+    public void UpdateInstance(string newText)
+    {
+        value = newText;
         t.text = value;
     }
 
@@ -40,9 +51,7 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler
         if (value != "[ ]" && b.interactable != false)
         {
             OnClickEvent?.Invoke(gameObject);
-            t.text = "[ ]";
-            value = "[ ]";
-            t.color = ColorPalette._instance.purpleDark;
+            UpdateInstance("[ ]", ColorPalette._instance.purpleDark);
             b.interactable = false;
         }
         else return;

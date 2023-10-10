@@ -114,11 +114,10 @@ public class Generator : MonoBehaviour
                 GameObject newMatrixValueObj = Instantiate(GameMaster._instance.matrixValuePrefab,
                     GameMaster._instance.matrixHolder.transform);
                 MatrixValue newMatrixValue = newMatrixValueObj.GetComponent<MatrixValue>();
-                newMatrixValue.value = resultArray[counter];
                 newMatrixValue.OnClickEvent += GameMaster._instance.HandleMatrixClick;
                 newMatrixValue.row = i;
                 newMatrixValue.column = j;
-                newMatrixValue.UpdateInstance();
+                newMatrixValue.UpdateInstance(resultArray[counter]);
                 GameMaster._instance.matrix[i, j] = newMatrixValueObj;
 
                 counter++;
@@ -138,5 +137,17 @@ public class Generator : MonoBehaviour
         Utility.DestroyAllChildren(seqComp.valueHolderObj);
 
         //Debug.Log(seqComp.seqName + " generation is done!");
+    }
+    
+    
+    public void GenerateSecurityProtocols(List<GameObject> securityProtocolsPrefabs)
+    {
+        int rndIndex = Random.Range(0, securityProtocolsPrefabs.Count);
+        GameObject newSecurityProtocol =
+            Instantiate(securityProtocolsPrefabs[rndIndex], GameMaster._instance.securityProtocolsHolder.transform);
+        
+        SecurityProtocol secComp = newSecurityProtocol.GetComponent<SecurityProtocol>();
+        GameMaster._instance.availableSecurityProtocols.Add(secComp);
+        securityProtocolsPrefabs.RemoveAt(rndIndex);
     }
 }

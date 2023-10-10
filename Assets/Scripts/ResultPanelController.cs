@@ -40,7 +40,16 @@ public class ResultPanelController : MonoBehaviour
 
         minorText.color = dark;
         mainText.color = bright;
-        highScoreObj.GetComponent<TextMeshProUGUI>().color = dark;
-        highScoreObj.GetComponent<TextMeshProUGUI>().text = "Extracted " + highScore + " €$";
+        if (highScore > 0)
+        {
+            highScoreObj.GetComponent<TextMeshProUGUI>().color = dark;
+            highScoreObj.GetComponent<TextMeshProUGUI>().text = "Extracted " + highScore + " €$";
+            highScoreObj.SetActive(true);
+        }
+        else
+        {
+            highScoreObj.SetActive(false);
+        }
+        
     }
 }
