@@ -27,8 +27,10 @@ public class GameMaster : MonoBehaviour
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
 
+    [SerializeField] public GameObject mainPanel;
     [SerializeField] public GameObject resultPanel;
     [SerializeField] public GameObject securityProtocolsPanel;
+    [SerializeField] public GameObject highScorePanel;
     [SerializeField] public TextMeshProUGUI layerText;
     [SerializeField] public GameObject buffer;
 
@@ -100,6 +102,21 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F2) && isBreachEnded)
+        {
+            mainPanel.SetActive(false);
+            highScorePanel.SetActive(true);
+            highScorePanel.GetComponent<HighScorePanel>().UpdateVisuals();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && highScorePanel.active)
+        {
+            mainPanel.SetActive(true);
+            highScorePanel.SetActive(false);
+        }
+    }
+
     public void HandleMatrixClick(GameObject sender)
     {
         BufferValue bufferValue = buffer.transform.GetChild(bufferUsed).GetComponent<BufferValue>();
@@ -159,7 +176,10 @@ public class GameMaster : MonoBehaviour
             item.CheckSequenceConditions(sender.GetComponent<MatrixValue>());
         }
         
-        CheckWinLoseConditions();
+        if(!isBreachEnded)
+        {
+            CheckWinLoseConditions();
+        }
     }
 
     void HandleMatrixValuesInteractability()
@@ -243,7 +263,9 @@ public class GameMaster : MonoBehaviour
     {
         if (bufferUsed == bufferSize)
         {
-            ShowResultPanel(atLeastOneSequenceIsCompleted);
+            level = 0;
+            SaveLoadSystem.SaveFile(PlayerManager._instance.score);
+            ShowResultPanel(false);
             isBreachEnded = true;
             DisableAllMatrixValueInteractability();
         }
@@ -272,6 +294,7 @@ public class GameMaster : MonoBehaviour
         if (counterFailed == availableSequences.Count)
         {
             level = 0;
+            SaveLoadSystem.SaveFile(PlayerManager._instance.score);
             ShowResultPanel(false);
             isBreachEnded = true;
             DisableAllMatrixValueInteractability();
@@ -293,19 +316,21 @@ public class GameMaster : MonoBehaviour
 
         if (result)
         {
-            resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.greenLight,
-                ColorPalette._instance.greenDark, 0);
+            resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.greenLight,
+                ColorPalette._instance.greenDark, 0, "Daemons installed");
         }
         else
         {
-            resultPanel.GetComponent<ResultPanelController>().ChangeColorPalette(ColorPalette._instance.redLight,
-                ColorPalette._instance.redDark, PlayerManager._instance.score);
-
+            resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.redLight,
+                ColorPalette._instance.redDark, PlayerManager._instance.score,"Operation interrupted");
+            
             Utility.DestroyAllChildren(securityProtocolsHolder);
+            availableSecurityProtocols.Clear();
             securityProtocolsHolder.SetActive(false);
             PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
             PlayerManager._instance.UpdateVisuals();
+            
         }
     }
 

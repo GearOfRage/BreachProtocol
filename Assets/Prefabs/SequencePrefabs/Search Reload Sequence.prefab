@@ -7,34 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+    - target: {fileID: 4104481121541053373, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: desc
-      value: "Extract 1500 \u20AC$"
+      value: Restores time to max
       objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: name
-      value: Professional data extraction
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+    - target: {fileID: 4104481121541053373, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: seqName
-      value: Datamine.V4
+      value: Search Reload
       objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: lowerTreshold
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: upperTreshold
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: lowerThreshold
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
-      propertyPath: upperThreshold
-      value: 7
-      objectReference: {fileID: 0}
+    - target: {fileID: 4104481121541053373, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+      propertyPath: iconSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fd06840d32b24d3458eb2ec5e81c91d2, type: 3}
     - target: {fileID: 7597264177232793208, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -121,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7597264177232793211, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_Name
-      value: Professional Sequence
+      value: Search Reload Sequence
       objectReference: {fileID: 0}
     - target: {fileID: 8529619669180596927, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
       propertyPath: m_AnchorMax.y
@@ -172,7 +156,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 4104481121541053373, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
     - {fileID: 7171269864616359193, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
 --- !u!114 &232328418206432928 stripped
@@ -224,7 +207,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7597264177232793211, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
   m_PrefabInstance: {fileID: 8080916407081551644}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1480534435759746947
+--- !u!114 &8922640212845232027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -233,25 +216,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1822771666015095143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7372bdbddd45b4ba17eebc207dc558, type: 3}
+  m_Script: {fileID: 11500000, guid: da75ded3ea971404b9b0a6ab100a7b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sequenceValues: []
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
-  lowerThreshold: 6
-  upperThreshold: 7
-  iconSprite: {fileID: 21300000, guid: fd06840d32b24d3458eb2ec5e81c91d2, type: 3}
-  seqName: Datamine.V4
-  desc: "Extract 1500 \u20AC$"
+  lowerThreshold: 4
+  upperThreshold: 4
+  iconSprite: {fileID: 0}
+  seqName: Search Reload
+  desc: Next breach will start with the max time
   imageObj: {fileID: 1822771665597208902}
   nameObj: {fileID: 1822771665200564628}
   descObj: {fileID: 1822771665772860538}
   resultText: {fileID: 232328418206432928}
   valueHolderObj: {fileID: 1822771666748546970}
   highlightBlock: {fileID: 8622960863219599676}
-  defaultMoney: 1500
 --- !u!1 &1822771666748546970 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7597264176490829958, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}

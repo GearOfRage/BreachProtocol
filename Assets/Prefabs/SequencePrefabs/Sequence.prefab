@@ -326,7 +326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7597264177232793208}
   - component: {fileID: 7597264177232793209}
-  - component: {fileID: 6837288255876602518}
+  - component: {fileID: 7171269864616359193}
   m_Layer: 0
   m_Name: Sequence
   m_TagString: Untagged
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6837288255876602518
+--- !u!114 &7171269864616359193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -389,23 +389,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc208395f4f40244fbd766d4a917b6de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceValues:
-  - {fileID: 0}
-  - {fileID: 0}
+  sequenceValues: []
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
   lowerThreshold: 2
   upperThreshold: 2
   iconSprite: {fileID: 0}
-  seqName: DefaultName
-  desc: DefaultDesc
-  imageObj: {fileID: 7597264177642167898}
-  nameObj: {fileID: 7597264176973975176}
-  descObj: {fileID: 7597264177466512230}
-  resultText: {fileID: 8294588036903401916}
-  valueHolderObj: {fileID: 7597264176490829958}
-  highlightBlock: {fileID: 544873568399527456}
+  seqName: DefSeqName
+  desc: DefSeqDesc
+  imageObj: {fileID: 0}
+  nameObj: {fileID: 0}
+  descObj: {fileID: 0}
+  resultText: {fileID: 0}
+  valueHolderObj: {fileID: 0}
+  highlightBlock: {fileID: 0}
 --- !u!1 &7597264177466512232
 GameObject:
   m_ObjectHideFlags: 0

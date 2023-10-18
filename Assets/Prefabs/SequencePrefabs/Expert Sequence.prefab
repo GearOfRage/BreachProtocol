@@ -177,6 +177,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6837288255876602518, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+    - {fileID: 4104481121541053373, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
+    - {fileID: 7171269864616359193, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b76a6d33370f2044aa3644012cc83eec, type: 3}
 --- !u!114 &232328418206432928 stripped
 MonoBehaviour:
@@ -247,7 +249,7 @@ MonoBehaviour:
   upperThreshold: 4
   iconSprite: {fileID: 21300000, guid: b047f4f7fcdf37841aaf036b1e76cbd6, type: 3}
   seqName: Datamine.V3
-  desc: "Extract 500 \u20AC$"
+  desc: "Extract 500 \u20AC$ and exploit"
   imageObj: {fileID: 1822771665597208902}
   nameObj: {fileID: 1822771665200564628}
   descObj: {fileID: 1822771665772860538}

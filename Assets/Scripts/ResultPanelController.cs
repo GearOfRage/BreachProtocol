@@ -14,7 +14,7 @@ public class ResultPanelController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mainText;
     [SerializeField] private TextMeshProUGUI minorText;
 
-    public void ChangeColorPalette(Color bright, Color dark, int highScore)
+    public void UpdateResultPanel(Color bright, Color dark, int highScore, string text)
     {
         Image endButtonFrame = endButton.transform.GetChild(0).GetComponent<Image>();
         endButtonFrame.color = bright;
@@ -39,6 +39,7 @@ public class ResultPanelController : MonoBehaviour
         //highScoreObj.SetActive(false);
 
         minorText.color = dark;
+        minorText.text = text;
         mainText.color = bright;
         if (highScore > 0)
         {

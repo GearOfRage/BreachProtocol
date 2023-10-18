@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   protocolIcon: {fileID: 0}
   protocolName: Wall Out
-  protocolDesc: Blocks two code matrix columns
+  protocolDesc: Blocks two codes columns
   protocolIconObj: {fileID: 4229569766080399714}
   protocolNameObj: {fileID: 3581079120689833823}
   protocolDescObj: {fileID: 1051606553548321308}

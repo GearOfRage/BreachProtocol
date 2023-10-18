@@ -21,8 +21,6 @@ public class PlayerManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        score = 0;
         currentTime = defaultTime;
     }
 

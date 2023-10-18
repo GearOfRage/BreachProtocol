@@ -119,6 +119,12 @@ public class Sequence : MonoBehaviour
 
     public void CheckSequenceConditions(MatrixValue matrixValue)
     {
+        //If something broken with sequences check this "if" 
+        if (GameMaster._instance.isBreachEnded)
+        {
+            return;
+        }
+        
         if (sequenceState == SequenceState.InProgress)
         {
             HandlePositionChange(50f);

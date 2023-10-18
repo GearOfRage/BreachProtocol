@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   protocolIcon: {fileID: 0}
   protocolName: Reactive Defence
-  protocolDesc: Using buffer blocks two matrix code
+  protocolDesc: Using buffer blocks two codes
   protocolIconObj: {fileID: 7009792014188421255}
   protocolNameObj: {fileID: 7658150736503459514}
   protocolDescObj: {fileID: 6155775754893138937}
