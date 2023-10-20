@@ -398,12 +398,12 @@ MonoBehaviour:
   iconSprite: {fileID: 0}
   seqName: DefSeqName
   desc: DefSeqDesc
-  imageObj: {fileID: 0}
-  nameObj: {fileID: 0}
-  descObj: {fileID: 0}
-  resultText: {fileID: 0}
-  valueHolderObj: {fileID: 0}
-  highlightBlock: {fileID: 0}
+  imageObj: {fileID: 7597264177642167898}
+  nameObj: {fileID: 7597264176973975176}
+  descObj: {fileID: 7597264177466512230}
+  resultText: {fileID: 8294588036903401916}
+  valueHolderObj: {fileID: 7597264176490829958}
+  highlightBlock: {fileID: 544873568399527456}
 --- !u!1 &7597264177466512232
 GameObject:
   m_ObjectHideFlags: 0

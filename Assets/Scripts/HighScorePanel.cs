@@ -17,7 +17,7 @@ public class HighScorePanel : MonoBehaviour
 
     public void UpdateVisuals()
     {
-        highScore = SaveLoadSystem.LoadFile();
+        highScore = SaveLoadSystem.ReadHighscores();
         StringBuilder sb = new StringBuilder();
 
         int counter = 0;
@@ -29,7 +29,7 @@ public class HighScorePanel : MonoBehaviour
                 detailText += posibleChar[Random.Range(0, posibleChar.Length)];
             }
 
-            sb.Append(detailText).Append(" ").Append(highScore).Append(" €$").AppendLine();
+            sb.Append("0x").Append(detailText).Append(" ").Append(highScore[counter]).AppendLine();
             
             counter++;
             if (counter >= 130)

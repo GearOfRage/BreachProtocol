@@ -30,7 +30,7 @@ public class Generator : MonoBehaviour
             GenerateSequences(item);
         }
 
-        foreach (Sequence item in GameMaster._instance.availableSequences)
+        foreach (Sequence item in GameMaster._instance.activeSequences)
         {
             item.GenerateSequenceValues();
         }
@@ -132,7 +132,7 @@ public class Generator : MonoBehaviour
             Instantiate(sequence, GameMaster._instance.sequencesHolder.transform);
 
         Sequence seqComp = newSequence.GetComponent<Sequence>();
-        GameMaster._instance.availableSequences.Add(seqComp);
+        GameMaster._instance.activeSequences.Add(seqComp);
 
         Utility.DestroyAllChildren(seqComp.valueHolderObj);
 
@@ -147,7 +147,7 @@ public class Generator : MonoBehaviour
             Instantiate(securityProtocolsPrefabs[rndIndex], GameMaster._instance.securityProtocolsHolder.transform);
         
         SecurityProtocol secComp = newSecurityProtocol.GetComponent<SecurityProtocol>();
-        GameMaster._instance.availableSecurityProtocols.Add(secComp);
+        GameMaster._instance.activeSecurityProtocols.Add(secComp);
         securityProtocolsPrefabs.RemoveAt(rndIndex);
     }
 }

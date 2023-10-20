@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MatrixValue : MonoBehaviour, IPointerClickHandler
+public class MatrixValue : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject highlight;
 
@@ -55,5 +55,15 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler
             b.interactable = false;
         }
         else return;
+    }
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        
+    }
+    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        
     }
 }

@@ -10,6 +10,7 @@ public class ColorPalette : MonoBehaviour
     [SerializeField] public Color purpleDark;
     [SerializeField] public Color white;
     [SerializeField] public Color yellowLight;
+    [SerializeField] public Color blue;
     [SerializeField] public Color greenLight;
     [SerializeField] public Color greenDark;
     [SerializeField] public Color redLight;

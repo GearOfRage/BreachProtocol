@@ -24,8 +24,6 @@ public class Sequence : MonoBehaviour
 
     [HideInInspector] public int currentLenght = 2;
 
-    private SequenceValue previousValue;
-
     [HideInInspector] public bool isCompleted = false;
     [HideInInspector] public SequenceState sequenceState = SequenceState.InProgress;
 
@@ -67,8 +65,6 @@ public class Sequence : MonoBehaviour
             newSequenceValue.GetComponent<SequenceValue>().value =
                 gen.selectedCombinations[Random.Range(0, gen.selectedCombinations.Count)];
         }
-
-        previousValue = sequenceValues[0];
     }
 
     public void ChangeThreshold(int shift)
@@ -136,30 +132,23 @@ public class Sequence : MonoBehaviour
                     if (sequenceValues[i].value == matrixValue.value)
                     {
                         sequenceValues[i].PickValue();
-                        previousValue = sequenceValues[i];
                         pickedCounter++;
                     }
                     else
                     {
-                        if (previousValue.value != matrixValue.value)
+                        foreach (SequenceValue itemJ in sequenceValues)
                         {
-                            foreach (SequenceValue itemJ in sequenceValues)
+                            if(!itemJ.b.interactable)
                             {
-                                if(!itemJ.b.interactable)
-                                {
-                                    HandlePositionChange(50f);
-                                    itemJ.DropValue();
-                                }
+                                HandlePositionChange(50f);
+                                itemJ.DropValue();
                             }
                         }
-                        else
+                        pickedCounter = 0;
+                        if (sequenceValues[0].value == matrixValue.value)
                         {
-                            if (sequenceValues[i].value == matrixValue.value)
-                            {
-                                pickedCounter++;
-                            }
-
-                            HandlePositionChange(50f * pickedCounter + 1);
+                            sequenceValues[0].PickValue();
+                            pickedCounter++;
                         }
                     }
 

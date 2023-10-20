@@ -15,17 +15,25 @@ public enum Line
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster _instance;
-
+    
+    [Header("Prefabs - Required")]
     [SerializeField] public GameObject matrixValuePrefab;
     [SerializeField] public GameObject sequenceValuePrefab;
 
+    [HideInInspector] public List<GameObject> sequencesPrefabs = new List<GameObject>();
+    [SerializeField] public List<GameObject> securityProtocolsPrefabs = new List<GameObject>();
+    [SerializeField] public List<GameObject> exploitsPrefabs = new List<GameObject>();
+    
     [SerializeField] public GameObject basicSequencePrefab;
     [SerializeField] public GameObject advancedSequencePrefab;
     [SerializeField] public GameObject expertSequencePrefab;
-
+    
+    
+    [Header("Objects - Required")]
     [SerializeField] public GameObject matrixHolder;
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
+    [SerializeField] public GameObject exploitsHolder;
 
     [SerializeField] public GameObject mainPanel;
     [SerializeField] public GameObject resultPanel;
@@ -38,27 +46,25 @@ public class GameMaster : MonoBehaviour
     [SerializeField] public GameObject verticalHighlight;
     [SerializeField] public GameObject sequenceHighlight;
 
-    public bool isBreachEnded = false;
+    [HideInInspector] public bool isBreachEnded = false;
+    [HideInInspector] public bool atLeastOneSequenceIsCompleted = false;
+    
+    [HideInInspector] public int activeColumn = 0;
+    [HideInInspector] public int activeRow = 0;
+    [HideInInspector] public Line line = Line.Horizontal;
+    
+    [HideInInspector] public int bufferSize = 6; //starts from 0, 6 means 7 cells in buffer
+    [HideInInspector] public int bufferUsed = 0;
 
-    public bool atLeastOneSequenceIsCompleted = false;
-
-    public int activeColumn = 0;
-    public int activeRow = 0;
-
-    public Line line = Line.Horizontal;
-
-    public int bufferSize = 7; //starts from 0, 7 means 8 cells in buffer
-    public int bufferUsed = 0;
-
-    private int level = 1;
-
-    public static int matrixSize = 7;
+    public const int matrixSize = 7;
     public GameObject[,] matrix = new GameObject[matrixSize, matrixSize];
 
-    public List<Sequence> availableSequences = new List<Sequence>();
-    public List<SecurityProtocol> availableSecurityProtocols = new List<SecurityProtocol>();
-    public List<GameObject> sequencesPrefabs = new List<GameObject>();
-    public List<GameObject> securityProtocolsPrefabs = new List<GameObject>();
+    [Space(20)]
+    [Header("In-game info")]
+    public List<Sequence> activeSequences = new List<Sequence>();
+    public List<SecurityProtocol> activeSecurityProtocols = new List<SecurityProtocol>();
+    
+    private int level = 1;
 
     private Vector3 horizontalDefaultPosition;
     private Vector3 sequenceHighlightDefaultPosition;
@@ -93,9 +99,9 @@ public class GameMaster : MonoBehaviour
             
         //Security protocols
         //Only for immediate effects
-        if (availableSecurityProtocols.Count > 0)
+        if (activeSecurityProtocols.Count > 0)
         {
-            foreach (SecurityProtocol item in availableSecurityProtocols)
+            foreach (SecurityProtocol item in activeSecurityProtocols)
             {
                 item.Effect();
             }
@@ -106,14 +112,18 @@ public class GameMaster : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F2) && isBreachEnded)
         {
-            mainPanel.SetActive(false);
-            highScorePanel.SetActive(true);
-            highScorePanel.GetComponent<HighScorePanel>().UpdateVisuals();
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) && highScorePanel.active)
-        {
-            mainPanel.SetActive(true);
-            highScorePanel.SetActive(false);
+            if (highScorePanel.active)
+            {
+                mainPanel.SetActive(true);
+                highScorePanel.SetActive(false);
+                
+            }
+            else
+            {
+                mainPanel.SetActive(false);
+                highScorePanel.SetActive(true);
+                highScorePanel.GetComponent<HighScorePanel>().UpdateVisuals();
+            }
         }
     }
 
@@ -171,7 +181,7 @@ public class GameMaster : MonoBehaviour
 
         HandleMatrixValuesInteractability();
 
-        foreach (Sequence item in availableSequences)
+        foreach (Sequence item in activeSequences)
         {
             item.CheckSequenceConditions(sender.GetComponent<MatrixValue>());
         }
@@ -261,18 +271,14 @@ public class GameMaster : MonoBehaviour
 
     public void CheckWinLoseConditions()
     {
-        if (bufferUsed == bufferSize)
+        if (bufferUsed >= bufferSize && !atLeastOneSequenceIsCompleted)
         {
-            level = 0;
-            SaveLoadSystem.SaveFile(PlayerManager._instance.score);
-            ShowResultPanel(false);
-            isBreachEnded = true;
-            DisableAllMatrixValueInteractability();
+            GameOver();
         }
         
         int counterInstalled = 0;
         int counterFailed = 0;
-        foreach (Sequence item in availableSequences)
+        foreach (Sequence item in activeSequences)
         {
             if (item.sequenceState == SequenceState.Installed)
             {
@@ -285,28 +291,36 @@ public class GameMaster : MonoBehaviour
             }
             
         }
-        if (counterInstalled == availableSequences.Count || counterFailed + counterInstalled == availableSequences.Count)
+        if (counterInstalled == activeSequences.Count || counterFailed + counterInstalled == activeSequences.Count)
         {
             ShowResultPanel(true);
             isBreachEnded = true;
             DisableAllMatrixValueInteractability();
         }
-        if (counterFailed == availableSequences.Count)
+        if (counterFailed >= activeSequences.Count)
         {
-            level = 0;
-            SaveLoadSystem.SaveFile(PlayerManager._instance.score);
-            ShowResultPanel(false);
-            isBreachEnded = true;
-            DisableAllMatrixValueInteractability();
+            GameOver();
         }
         
+    }
+
+    private void GameOver()
+    {
+        Debug.Log("Trying to save...");
+        SaveLoadSystem.SaveHighscore(PlayerManager._instance.score, level);
+        level = 0;
+        ShowResultPanel(false);
+        securityProtocolsPanel.SetActive(false);
+        
+        isBreachEnded = true;
+        DisableAllMatrixValueInteractability();
     }
 
     public void ShowResultPanel(bool result)
     {
         resultPanel.SetActive(true);
 
-        foreach (Sequence item in availableSequences)
+        foreach (Sequence item in activeSequences)
         {
             if(item.sequenceState == SequenceState.InProgress)
             {
@@ -325,7 +339,7 @@ public class GameMaster : MonoBehaviour
                 ColorPalette._instance.redDark, PlayerManager._instance.score,"Operation interrupted");
             
             Utility.DestroyAllChildren(securityProtocolsHolder);
-            availableSecurityProtocols.Clear();
+            activeSecurityProtocols.Clear();
             securityProtocolsHolder.SetActive(false);
             PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
@@ -349,7 +363,7 @@ public class GameMaster : MonoBehaviour
     {
         resultPanel.SetActive(false);
 
-        availableSequences.Clear();
+        activeSequences.Clear();
 
         horizontalHighlight.SetActive(true);
         verticalHighlight.SetActive(false);
@@ -384,16 +398,16 @@ public class GameMaster : MonoBehaviour
         {
             securityProtocolsPanel.SetActive(true);
         }
-        if (level % 5 == 0 && availableSecurityProtocols.Count <= 2)
+        if (level % 5 == 0 && activeSecurityProtocols.Count <= 2)
         {
             generator.GenerateSecurityProtocols(securityProtocolsPrefabs);
         }
         
         //Security protocols
         //Only for immediate effects
-        if (availableSecurityProtocols.Count > 0)
+        if (activeSecurityProtocols.Count > 0)
         {
-            foreach (SecurityProtocol item in availableSecurityProtocols)
+            foreach (SecurityProtocol item in activeSecurityProtocols)
             {
                 item.Effect();
             }

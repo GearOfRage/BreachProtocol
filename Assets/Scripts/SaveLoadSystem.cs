@@ -1,43 +1,54 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class SaveLoadSystem : MonoBehaviour 
 {
-    public static void SaveFile(int score)
+    private static string filePath = Application.persistentDataPath + "/highscore.dat";
+
+    public static void SaveHighscore(int score, int layer)
     {
-        string destination = Application.persistentDataPath + "/highscore.dat";
-        FileStream file;
-
-        if(File.Exists(destination)) file = File.OpenWrite(destination);
-        else file = File.Create(destination);
-
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(file, score);
-        file.Close();
-        
-        Debug.Log(score + " is saved");
+        try
+        {
+            // Create or open the file for appending
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                // Write the two integer values separated by a space and followed by a newline
+                writer.WriteLine($"{score} €$ L{layer}");
+                Debug.Log("Saved: " + $"{score} €$ L{layer}");
+            }
+        }
+        catch (IOException e)
+        {
+            Debug.LogError("Error writing to file: " + e.Message);
+        }
     }
 
-    public static string[] LoadFile()
+    public static string[] ReadHighscores()
     {
-        string destination = Application.persistentDataPath + "/highscore.dat";
-        FileStream file;
-
-        if(File.Exists(destination)) file = File.OpenRead(destination);
-        else
+        if (File.Exists(filePath))
         {
-            Debug.LogError("File not found. Destination: " + destination);
-            return null;
+            string[] lines = File.ReadAllLines(filePath);
+
+            // Sort the array in descending order based on the score values
+            Array.Sort(lines, (a, b) =>
+            {
+                // Split the lines and parse the scores
+                int scoreA = int.Parse(a.Split(' ')[0]);
+                int scoreB = int.Parse(b.Split(' ')[0]);
+
+                // Compare and sort in descending order
+                return scoreB.CompareTo(scoreA);
+            });
+
+            return lines;
         }
 
-        BinaryFormatter bf = new BinaryFormatter();
-        string[] loadedData = (string[]) bf.Deserialize(file);
-        file.Close();
-        
-        return loadedData;
+        return null; // File not found or error
     }
 
 }
