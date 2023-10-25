@@ -69,8 +69,8 @@ public class Sequence : MonoBehaviour
 
     public void ChangeThreshold(int shift)
     {
-        lowerThreshold += shift;
-        upperThreshold += shift;
+        lowerThreshold = Mathf.Clamp(lowerThreshold + shift, minLenght, maxLenght);
+        upperThreshold = Mathf.Clamp(upperThreshold + shift, minLenght, maxLenght);
     }
 
     public void ChangeToPositive()

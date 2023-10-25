@@ -63,6 +63,7 @@ public class GameMaster : MonoBehaviour
     [Header("In-game info")]
     public List<Sequence> activeSequences = new List<Sequence>();
     public List<SecurityProtocol> activeSecurityProtocols = new List<SecurityProtocol>();
+    public List<Exploit> activeExploits = new List<Exploit>();
     
     private int level = 1;
 
@@ -96,6 +97,7 @@ public class GameMaster : MonoBehaviour
         HandleMatrixValuesInteractability();
         
         Utility.DestroyAllChildren(securityProtocolsHolder);
+        Utility.DestroyAllChildren(exploitsHolder);
             
         //Security protocols
         //Only for immediate effects
@@ -306,7 +308,6 @@ public class GameMaster : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Trying to save...");
         SaveLoadSystem.SaveHighscore(PlayerManager._instance.score, level);
         level = 0;
         ShowResultPanel(false);
@@ -362,12 +363,21 @@ public class GameMaster : MonoBehaviour
     public void StartNewBreach()
     {
         resultPanel.SetActive(false);
+        matrixHolder.transform.parent.parent.GetComponent<Animator>().Play("RightSlideFullOpen");
 
         activeSequences.Clear();
 
         horizontalHighlight.SetActive(true);
         verticalHighlight.SetActive(false);
 
+        //Exploits Effects        
+        if (activeExploits.Count > 0)
+        {
+            foreach (Exploit item in activeExploits)
+            {
+                item.RepeatEffect();
+            }
+        }
         generator.GenerateAll();
 
         TimerController._instance.timerBar.GetComponent<Image>().fillAmount = 1f;
@@ -393,7 +403,15 @@ public class GameMaster : MonoBehaviour
         activeRow = 0;
         activeColumn = 0;
         HandleMatrixValuesInteractability();
+        
 
+        //Activate security protocols
+        if(activeExploits.Count > 0)
+        {
+            exploitsHolder.SetActive(true);
+        }
+        
+        //Activate security protocols
         if (level == 5)
         {
             securityProtocolsPanel.SetActive(true);
@@ -412,5 +430,6 @@ public class GameMaster : MonoBehaviour
                 item.Effect();
             }
         }
+        
     }
 }

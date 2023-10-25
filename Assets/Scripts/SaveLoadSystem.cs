@@ -19,7 +19,6 @@ public class SaveLoadSystem : MonoBehaviour
             {
                 // Write the two integer values separated by a space and followed by a newline
                 writer.WriteLine($"{score} €$ L{layer}");
-                Debug.Log("Saved: " + $"{score} €$ L{layer}");
             }
         }
         catch (IOException e)

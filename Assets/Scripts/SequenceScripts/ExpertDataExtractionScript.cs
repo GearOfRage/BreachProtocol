@@ -11,7 +11,7 @@ public class ExpertDataExtractionScript : Sequence
     {
         PlayerManager._instance.score += currentMoney;
         PlayerManager._instance.UpdateVisuals();
-        
+        GameMaster._instance.resultPanel.GetComponent<ResultPanelController>().AddExploit();
     }
 
     public void ChangeMoney(int newValue)

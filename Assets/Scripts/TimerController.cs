@@ -14,24 +14,32 @@ public class TimerController : MonoBehaviour
     [SerializeField] public GameObject timerBar;
     
     public bool isTimerStarted = false;
-
+    
+    private float countdownTime;
+    private float currentTime = 0f;
+    private Image img;
+    
     private void Start()
     {
         if (_instance == null)
         {
             _instance = this;
         }
+        
+        countdownTime = PlayerManager._instance.currentTime;
+        currentTime = 0f;
+        img = timerBar.GetComponent<Image>();
     }
 
     public IEnumerator StartCountdown()
     {
-        float countdownTime = PlayerManager._instance.currentTime;
-        float currentTime = 0f;
+        countdownTime = PlayerManager._instance.currentTime;
+        currentTime = 0f;
         currentTime = countdownTime;
         PlayerManager._instance.nextTime = 0f;
 
         isTimerStarted = true;
-        Image img = timerBar.GetComponent<Image>();
+        img = timerBar.GetComponent<Image>();
 
         while (currentTime > 0)
         {

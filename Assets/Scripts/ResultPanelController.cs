@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,20 @@ public class ResultPanelController : MonoBehaviour
     [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject mainBlock;
     [SerializeField] private GameObject highScoreObj;
+    
     [SerializeField] private TextMeshProUGUI mainText;
     [SerializeField] private TextMeshProUGUI minorText;
+    
+    [Header("Exploit")]
+    [SerializeField] private GameObject exploitHolder;
+    [SerializeField] private Image exploitIconComp;
+    [SerializeField] private TextMeshProUGUI exploitNameComp;
+    [SerializeField] private TextMeshProUGUI exploitDescComp;
+    [SerializeField] private GameObject exploitDeployButton;
+    [SerializeField] private GameObject exploitFragmentButton;
 
+    private int randExploitIndex = 0;
+    
     public void UpdateResultPanel(Color bright, Color dark, int highScore, string text)
     {
         Image endButtonFrame = endButton.transform.GetChild(0).GetComponent<Image>();
@@ -38,6 +50,9 @@ public class ResultPanelController : MonoBehaviour
 
         //highScoreObj.SetActive(false);
 
+        // Animator anim = GetComponent<Animator>();
+        // anim.Play("ShowUp");
+
         minorText.color = dark;
         minorText.text = text;
         mainText.color = bright;
@@ -52,5 +67,44 @@ public class ResultPanelController : MonoBehaviour
             highScoreObj.SetActive(false);
         }
         
+    }
+
+    public void AddExploit()
+    {
+        exploitHolder.SetActive(true);
+        randExploitIndex = Random.Range(0, GameMaster._instance.exploitsPrefabs.Count);
+        Exploit newExploit = GameMaster._instance.exploitsPrefabs[randExploitIndex].GetComponent<Exploit>();
+
+        exploitIconComp.sprite = newExploit.exploitIcon;
+        exploitNameComp.text = newExploit.exploitName;
+        exploitDescComp.text = newExploit.exploitDesc;
+        
+        if (GameMaster._instance.activeExploits.Count >= 4)
+        {
+            exploitDeployButton.GetComponent<Button>().interactable = false;
+        }
+
+        continueButton.GetComponent<Button>().interactable = false;
+    }
+
+    public void DeployButtonClick()
+    {
+        GameMaster._instance.exploitsHolder.transform.parent.gameObject.SetActive(true);
+        GameObject newExploit =
+            Instantiate(GameMaster._instance.exploitsPrefabs[randExploitIndex], GameMaster._instance.exploitsHolder.transform);
+
+        Exploit expComp = newExploit.GetComponent<Exploit>();
+        GameMaster._instance.activeExploits.Add(expComp);
+        
+        exploitHolder.SetActive(false);
+        continueButton.GetComponent<Button>().interactable = true;
+    }
+    
+    public void FragmentButtonClick()
+    {
+        PlayerManager._instance.score += 250;
+        PlayerManager._instance.UpdateVisuals();
+        exploitHolder.SetActive(false);
+        continueButton.GetComponent<Button>().interactable = true;
     }
 }
