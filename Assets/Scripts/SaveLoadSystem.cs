@@ -18,7 +18,7 @@ public class SaveLoadSystem : MonoBehaviour
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
                 // Write the two integer values separated by a space and followed by a newline
-                writer.WriteLine($"{score} €$ L{layer}");
+                writer.WriteLine($"{score} €$\tL{layer}");
             }
         }
         catch (IOException e)

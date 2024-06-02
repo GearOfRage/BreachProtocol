@@ -15,22 +15,25 @@ public enum Line
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster _instance;
-    
-    [Header("Prefabs - Required")]
-    [SerializeField] public GameObject matrixValuePrefab;
+
+    [Header("Prefabs - Required")] [SerializeField]
+    public GameObject matrixValuePrefab;
+
     [SerializeField] public GameObject sequenceValuePrefab;
 
     [HideInInspector] public List<GameObject> sequencesPrefabs = new List<GameObject>();
     [SerializeField] public List<GameObject> securityProtocolsPrefabs = new List<GameObject>();
     [SerializeField] public List<GameObject> exploitsPrefabs = new List<GameObject>();
-    
+
     [SerializeField] public GameObject basicSequencePrefab;
     [SerializeField] public GameObject advancedSequencePrefab;
     [SerializeField] public GameObject expertSequencePrefab;
-    
-    
-    [Header("Objects - Required")]
-    [SerializeField] public GameObject matrixHolder;
+
+
+    [Header("Objects - Required")] [SerializeField]
+    public GameObject matrixHolder;
+    [SerializeField] public AudioSource audioManager;
+
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
     [SerializeField] public GameObject exploitsHolder;
@@ -48,23 +51,21 @@ public class GameMaster : MonoBehaviour
 
     [HideInInspector] public bool isBreachEnded = false;
     [HideInInspector] public bool atLeastOneSequenceIsCompleted = false;
-    
+
     [HideInInspector] public int activeColumn = 0;
     [HideInInspector] public int activeRow = 0;
     [HideInInspector] public Line line = Line.Horizontal;
-    
+
     [HideInInspector] public int bufferSize = 6; //starts from 0, 6 means 7 cells in buffer
     [HideInInspector] public int bufferUsed = 0;
 
     public const int matrixSize = 7;
     public GameObject[,] matrix = new GameObject[matrixSize, matrixSize];
 
-    [Space(20)]
-    [Header("In-game info")]
-    public List<Sequence> activeSequences = new List<Sequence>();
+    [Space(20)] [Header("In-game info")] public List<Sequence> activeSequences = new List<Sequence>();
     public List<SecurityProtocol> activeSecurityProtocols = new List<SecurityProtocol>();
     public List<Exploit> activeExploits = new List<Exploit>();
-    
+
     private int level = 1;
 
     private Vector3 horizontalDefaultPosition;
@@ -80,12 +81,15 @@ public class GameMaster : MonoBehaviour
             _instance = this;
         }
 
-        
+
         generator = GetComponent<Generator>();
-        
+
         layerText.text = "Layer " + level;
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
         
+        
+        audioManager.Stop();
+
         sequencesPrefabs.Add(basicSequencePrefab);
         sequencesPrefabs.Add(advancedSequencePrefab);
         sequencesPrefabs.Add(expertSequencePrefab);
@@ -95,10 +99,10 @@ public class GameMaster : MonoBehaviour
         sequenceHighlightDefaultPosition = sequenceHighlight.transform.localPosition;
 
         HandleMatrixValuesInteractability();
-        
+
         Utility.DestroyAllChildren(securityProtocolsHolder);
         Utility.DestroyAllChildren(exploitsHolder);
-            
+
         //Security protocols
         //Only for immediate effects
         if (activeSecurityProtocols.Count > 0)
@@ -118,7 +122,6 @@ public class GameMaster : MonoBehaviour
             {
                 mainPanel.SetActive(true);
                 highScorePanel.SetActive(false);
-                
             }
             else
             {
@@ -140,7 +143,7 @@ public class GameMaster : MonoBehaviour
         Vector3 moveHighlight = sequenceHighlight.transform.localPosition;
         moveHighlight.x += 50f;
         sequenceHighlight.transform.localPosition = moveHighlight;
-        
+
         bufferUsed++;
 
         matrixValue.b.interactable = false;
@@ -187,8 +190,8 @@ public class GameMaster : MonoBehaviour
         {
             item.CheckSequenceConditions(sender.GetComponent<MatrixValue>());
         }
-        
-        if(!isBreachEnded)
+
+        if (!isBreachEnded)
         {
             CheckWinLoseConditions();
         }
@@ -277,7 +280,7 @@ public class GameMaster : MonoBehaviour
         {
             GameOver();
         }
-        
+
         int counterInstalled = 0;
         int counterFailed = 0;
         foreach (Sequence item in activeSequences)
@@ -287,32 +290,37 @@ public class GameMaster : MonoBehaviour
                 atLeastOneSequenceIsCompleted = true;
                 counterInstalled++;
             }
+
             if (item.sequenceState == SequenceState.Failed)
             {
                 counterFailed++;
             }
-            
         }
+
         if (counterInstalled == activeSequences.Count || counterFailed + counterInstalled == activeSequences.Count)
         {
             ShowResultPanel(true);
             isBreachEnded = true;
             DisableAllMatrixValueInteractability();
         }
+
         if (counterFailed >= activeSequences.Count)
         {
             GameOver();
         }
-        
     }
 
     private void GameOver()
     {
-        SaveLoadSystem.SaveHighscore(PlayerManager._instance.score, level);
+        if (PlayerManager._instance.score > 0)
+        {
+            SaveLoadSystem.SaveHighscore(PlayerManager._instance.score, level);
+        }
+
         level = 0;
         ShowResultPanel(false);
         securityProtocolsPanel.SetActive(false);
-        
+
         isBreachEnded = true;
         DisableAllMatrixValueInteractability();
     }
@@ -323,7 +331,7 @@ public class GameMaster : MonoBehaviour
 
         foreach (Sequence item in activeSequences)
         {
-            if(item.sequenceState == SequenceState.InProgress)
+            if (item.sequenceState == SequenceState.InProgress)
             {
                 item.ChangeToNegative();
             }
@@ -337,15 +345,14 @@ public class GameMaster : MonoBehaviour
         else
         {
             resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.redLight,
-                ColorPalette._instance.redDark, PlayerManager._instance.score,"Operation interrupted");
-            
+                ColorPalette._instance.redDark, PlayerManager._instance.score, "Operation interrupted");
+
             Utility.DestroyAllChildren(securityProtocolsHolder);
             activeSecurityProtocols.Clear();
             securityProtocolsHolder.SetActive(false);
             PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
             PlayerManager._instance.UpdateVisuals();
-            
         }
     }
 
@@ -378,6 +385,7 @@ public class GameMaster : MonoBehaviour
                 item.RepeatEffect();
             }
         }
+
         generator.GenerateAll();
 
         TimerController._instance.timerBar.GetComponent<Image>().fillAmount = 1f;
@@ -398,29 +406,30 @@ public class GameMaster : MonoBehaviour
 
         horizontalHighlight.transform.localPosition = horizontalDefaultPosition;
         sequenceHighlight.transform.localPosition = sequenceHighlightDefaultPosition;
-        
+
         line = Line.Horizontal;
         activeRow = 0;
         activeColumn = 0;
         HandleMatrixValuesInteractability();
-        
+
 
         //Activate security protocols
-        if(activeExploits.Count > 0)
+        if (activeExploits.Count > 0)
         {
             exploitsHolder.SetActive(true);
         }
-        
+
         //Activate security protocols
         if (level == 5)
         {
             securityProtocolsPanel.SetActive(true);
         }
+
         if (level % 5 == 0 && activeSecurityProtocols.Count <= 2)
         {
             generator.GenerateSecurityProtocols(securityProtocolsPrefabs);
         }
-        
+
         //Security protocols
         //Only for immediate effects
         if (activeSecurityProtocols.Count > 0)
@@ -430,6 +439,5 @@ public class GameMaster : MonoBehaviour
                 item.Effect();
             }
         }
-        
     }
 }

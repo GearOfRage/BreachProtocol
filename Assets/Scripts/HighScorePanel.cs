@@ -29,7 +29,7 @@ public class HighScorePanel : MonoBehaviour
                 detailText += posibleChar[Random.Range(0, posibleChar.Length)];
             }
 
-            sb.Append("0x").Append(detailText).Append(" ").Append(highScore[counter]).AppendLine();
+            sb.Append("0x").Append(detailText).Append('\t').Append(highScore[counter]).AppendLine();
             
             counter++;
             if (counter >= 130)

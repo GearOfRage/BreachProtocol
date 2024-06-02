@@ -40,6 +40,8 @@ public class TimerController : MonoBehaviour
 
         isTimerStarted = true;
         img = timerBar.GetComponent<Image>();
+        
+        GameMaster._instance.audioManager.Play();
 
         while (currentTime > 0)
         {
@@ -65,5 +67,7 @@ public class TimerController : MonoBehaviour
         {
             GameMaster._instance.ShowResultPanel(false);
         }
+        
+        GameMaster._instance.audioManager.Stop();
     }
 }
