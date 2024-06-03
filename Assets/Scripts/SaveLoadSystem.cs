@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class SaveLoadSystem : MonoBehaviour 
 {

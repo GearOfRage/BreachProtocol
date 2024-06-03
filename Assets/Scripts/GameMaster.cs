@@ -32,7 +32,6 @@ public class GameMaster : MonoBehaviour
 
     [Header("Objects - Required")] [SerializeField]
     public GameObject matrixHolder;
-    [SerializeField] public AudioSource audioManager;
 
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
@@ -88,7 +87,6 @@ public class GameMaster : MonoBehaviour
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
         
         
-        audioManager.Stop();
 
         sequencesPrefabs.Add(basicSequencePrefab);
         sequencesPrefabs.Add(advancedSequencePrefab);

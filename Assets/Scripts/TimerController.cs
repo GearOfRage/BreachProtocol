@@ -12,6 +12,8 @@ public class TimerController : MonoBehaviour
     
     [SerializeField] public TextMeshProUGUI timerText;
     [SerializeField] public GameObject timerBar;
+    [SerializeField] public AudioClip timerSound;
+    
     
     public bool isTimerStarted = false;
     
@@ -41,7 +43,7 @@ public class TimerController : MonoBehaviour
         isTimerStarted = true;
         img = timerBar.GetComponent<Image>();
         
-        GameMaster._instance.audioManager.Play();
+        SoundFXManager._instance.PlaySoundFXClipLoop(timerSound, transform, 1f);
 
         while (currentTime > 0)
         {
@@ -68,6 +70,6 @@ public class TimerController : MonoBehaviour
             GameMaster._instance.ShowResultPanel(false);
         }
         
-        GameMaster._instance.audioManager.Stop();
+        SoundFXManager._instance.ImmediateStopSoundFXClipLoop();
     }
 }

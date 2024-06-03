@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mime;
+using System;
+using System.Text;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class ResultPanelController : MonoBehaviour
 {
@@ -15,7 +14,8 @@ public class ResultPanelController : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI mainText;
     [SerializeField] private TextMeshProUGUI minorText;
-    
+    [SerializeField] private TextMeshProUGUI consoleText;
+
     [Header("Exploit")]
     [SerializeField] private GameObject exploitHolder;
     [SerializeField] private Image exploitIconComp;
@@ -25,7 +25,14 @@ public class ResultPanelController : MonoBehaviour
     [SerializeField] private GameObject exploitFragmentButton;
 
     private int randExploitIndex = 0;
-    
+    public StringBuilder sb = new StringBuilder();
+
+    private void Start()
+    {
+        sb.Clear();
+        sb.Append("//root folder").AppendLine().Append("//access request").AppendLine().Append("//access granted").AppendLine();
+    }
+
     public void UpdateResultPanel(Color bright, Color dark, int highScore, string text)
     {
         Image endButtonFrame = endButton.transform.GetChild(0).GetComponent<Image>();
@@ -48,6 +55,17 @@ public class ResultPanelController : MonoBehaviour
         mainBlock.GetComponent<Image>().color = bright;
         mainBlock.transform.GetChild(0).GetComponent<Image>().color = dark;
 
+        
+        //consoleText.text = sb.ToString();
+        /*
+            //root folder
+            //access request
+            //access granted
+            //extracting packages 1..............................completed
+            //extracting packages 2..............................completed
+            //extracting packages 3..............................completed
+        */
+            
         //highScoreObj.SetActive(false);
 
         // Animator anim = GetComponent<Animator>();
