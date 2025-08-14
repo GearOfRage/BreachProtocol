@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     public float defaultTime = 30f;
     public float nextTime = 0;
     public float currentTime;
+    public int limitExploits = 4;
+    public int limitSecurityProtocols = 3;
     
     [SerializeField] private TextMeshProUGUI moneyText;
 

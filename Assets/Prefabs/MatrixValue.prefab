@@ -162,6 +162,8 @@ MonoBehaviour:
   column: 0
   value: 
   b: {fileID: 0}
+  hoverSound: {fileID: 8300000, guid: 6196e6ddabdc797448ebc219b2536fbf, type: 3}
+  clickSound: {fileID: 8300000, guid: ad430b92e019f9844af3bbe13975f7bb, type: 3}
 --- !u!1 &3507421495404805216
 GameObject:
   m_ObjectHideFlags: 0

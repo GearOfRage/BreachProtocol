@@ -36,10 +36,13 @@ public class GameMaster : MonoBehaviour
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
     [SerializeField] public GameObject exploitsHolder;
+    
+    [SerializeField] public TextMeshProUGUI exploitsCounterText;
+    [SerializeField] public TextMeshProUGUI securityProtocolsCounterText;
 
+    [SerializeField] public GameObject securityProtocolsPanel;
     [SerializeField] public GameObject mainPanel;
     [SerializeField] public GameObject resultPanel;
-    [SerializeField] public GameObject securityProtocolsPanel;
     [SerializeField] public GameObject highScorePanel;
     [SerializeField] public TextMeshProUGUI layerText;
     [SerializeField] public GameObject buffer;
@@ -47,6 +50,9 @@ public class GameMaster : MonoBehaviour
     [SerializeField] public GameObject horizontalHighlight;
     [SerializeField] public GameObject verticalHighlight;
     [SerializeField] public GameObject sequenceHighlight;
+
+    [SerializeField] public AudioClip winSound;
+    [SerializeField] public AudioClip loseSound;
 
     [HideInInspector] public bool isBreachEnded = false;
     [HideInInspector] public bool atLeastOneSequenceIsCompleted = false;
@@ -85,8 +91,7 @@ public class GameMaster : MonoBehaviour
 
         layerText.text = "Layer " + level;
         CultureInfo.CurrentCulture = new CultureInfo("en-US");
-        
-        
+
 
         sequencesPrefabs.Add(basicSequencePrefab);
         sequencesPrefabs.Add(advancedSequencePrefab);
@@ -116,7 +121,7 @@ public class GameMaster : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F2) && isBreachEnded)
         {
-            if (highScorePanel.active)
+            if (highScorePanel.activeInHierarchy)
             {
                 mainPanel.SetActive(true);
                 highScorePanel.SetActive(false);
@@ -339,11 +344,14 @@ public class GameMaster : MonoBehaviour
         {
             resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.greenLight,
                 ColorPalette._instance.greenDark, 0, "Daemons installed");
+            SoundFXManager._instance.PlaySoundFXClipOneShot(winSound, transform, 0.3f, 1f);
         }
         else
         {
             resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.redLight,
                 ColorPalette._instance.redDark, PlayerManager._instance.score, "Operation interrupted");
+
+            SoundFXManager._instance.PlaySoundFXClipOneShot(loseSound, transform, 0.3f, 1f);
 
             Utility.DestroyAllChildren(securityProtocolsHolder);
             activeSecurityProtocols.Clear();
@@ -351,6 +359,12 @@ public class GameMaster : MonoBehaviour
             PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
             PlayerManager._instance.UpdateVisuals();
+        }
+
+        AudioSource timerSound = gameObject.GetComponent<TimerController>().timerAudioSource;
+        if (timerSound)
+        {
+            Destroy(timerSound);
         }
     }
 

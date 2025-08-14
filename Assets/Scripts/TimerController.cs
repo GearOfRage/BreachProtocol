@@ -13,6 +13,7 @@ public class TimerController : MonoBehaviour
     [SerializeField] public TextMeshProUGUI timerText;
     [SerializeField] public GameObject timerBar;
     [SerializeField] public AudioClip timerSound;
+    [HideInInspector] public AudioSource timerAudioSource;
     
     
     public bool isTimerStarted = false;
@@ -43,7 +44,8 @@ public class TimerController : MonoBehaviour
         isTimerStarted = true;
         img = timerBar.GetComponent<Image>();
         
-        SoundFXManager._instance.PlaySoundFXClipLoop(timerSound, transform, 1f);
+        timerAudioSource = SoundFXManager._instance.PlaySoundFXClipLoop(timerSound, transform, 1f, 1f, true);
+        
 
         while (currentTime > 0)
         {
@@ -63,13 +65,11 @@ public class TimerController : MonoBehaviour
 
             yield return null; // Wait for the next frame
         }
-
-        // When the countdown reaches 0 or less, you can perform any desired action.
+        // When the countdown reaches 0 or less.
+        
         if (!GameMaster._instance.isBreachEnded)
         {
             GameMaster._instance.ShowResultPanel(false);
         }
-        
-        SoundFXManager._instance.ImmediateStopSoundFXClipLoop();
     }
 }

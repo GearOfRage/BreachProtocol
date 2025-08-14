@@ -22,6 +22,9 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     private TextMeshProUGUI t;
     public Button b;
 
+    [SerializeField] public AudioClip hoverSound;
+    [SerializeField] public AudioClip clickSound;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,7 +32,7 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         defaultColor = ColorPalette._instance.yellowLight;
         t = transform.GetComponentInChildren<TextMeshProUGUI>();
         b = GetComponent<Button>();
-        
+
         UpdateInstance(value, defaultColor);
     }
 
@@ -39,7 +42,7 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         t.text = value;
         t.color = newColor;
     }
-    
+
     public void UpdateInstance(string newText)
     {
         value = newText;
@@ -53,17 +56,19 @@ public class MatrixValue : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
             OnClickEvent?.Invoke(gameObject);
             UpdateInstance("[ ]", ColorPalette._instance.purpleDark);
             b.interactable = false;
+
+            SoundFXManager._instance.PlaySoundFXClipOneShot(clickSound, transform, 1f, 0.3f);
         }
         else return;
     }
-    
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        if (b.interactable)
+            SoundFXManager._instance.PlaySoundFXClipOneShot(hoverSound, transform, 5f, 0.5f);
     }
-    
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        
     }
 }
