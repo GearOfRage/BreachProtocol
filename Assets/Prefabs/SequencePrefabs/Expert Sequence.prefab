@@ -245,8 +245,8 @@ MonoBehaviour:
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
-  lowerThreshold: 1
-  upperThreshold: 1
+  lowerThreshold: 4
+  upperThreshold: 5
   iconSprite: {fileID: 21300000, guid: b047f4f7fcdf37841aaf036b1e76cbd6, type: 3}
   seqName: Datamine.V3
   desc: "Extract 500 \u20AC$ and exploit"
