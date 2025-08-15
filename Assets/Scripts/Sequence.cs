@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -27,10 +28,9 @@ public class Sequence : MonoBehaviour
     [HideInInspector] public bool isCompleted = false;
     [HideInInspector] public SequenceState sequenceState = SequenceState.InProgress;
 
-    [Header("Required to fill")] [Header("Threshold")] [SerializeField]
-    public int lowerThreshold = 2;
-
-    [SerializeField] public int upperThreshold = 2;
+    [Header("Required to fill")] [Header("Threshold")]
+    [SerializeField] private int lowerThreshold = 2;
+    [SerializeField] private int upperThreshold = 2;
 
     [Header("Details")] [SerializeField] private Sprite iconSprite;
     [SerializeField] public string seqName;

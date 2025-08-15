@@ -23,7 +23,7 @@ public class ReactiveDefenceProtocol : SecurityProtocol
                 Random.Range(0, GameMaster.matrixSize),
                 Random.Range(0, GameMaster.matrixSize)];
 
-            if (!rndMatrixValues.Contains(picked))
+            if (!rndMatrixValues.Contains(picked) && picked.GetComponent<MatrixValue>().value != "[ ]")
             {
                 rndMatrixValues.Add(picked);
             }

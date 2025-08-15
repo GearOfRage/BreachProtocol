@@ -8,7 +8,7 @@ public class AdvancedDataExtractionScript : Sequence
     [SerializeField] private int defaultMoney = 250;
     private int currentMoney = 250;
     private float restoreTime = 15f;
-    
+
     public override void Effect()
     {
         PlayerManager player = PlayerManager._instance;

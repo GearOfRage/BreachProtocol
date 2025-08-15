@@ -36,11 +36,12 @@ public class GameMaster : MonoBehaviour
     [SerializeField] public GameObject sequencesHolder;
     [SerializeField] public GameObject securityProtocolsHolder;
     [SerializeField] public GameObject exploitsHolder;
-    
+
     [SerializeField] public TextMeshProUGUI exploitsCounterText;
     [SerializeField] public TextMeshProUGUI securityProtocolsCounterText;
 
     [SerializeField] public GameObject securityProtocolsPanel;
+    [SerializeField] public GameObject exploitsPanel;
     [SerializeField] public GameObject mainPanel;
     [SerializeField] public GameObject resultPanel;
     [SerializeField] public GameObject highScorePanel;
@@ -323,6 +324,7 @@ public class GameMaster : MonoBehaviour
         level = 0;
         ShowResultPanel(false);
         securityProtocolsPanel.SetActive(false);
+        exploitsPanel.SetActive(false);
 
         isBreachEnded = true;
         DisableAllMatrixValueInteractability();
@@ -343,19 +345,21 @@ public class GameMaster : MonoBehaviour
         if (result)
         {
             resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.greenLight,
-                ColorPalette._instance.greenDark, 0, "Daemons installed");
+                ColorPalette._instance.greenDark, 0, "Daemons Installed");
             SoundFXManager._instance.PlaySoundFXClipOneShot(winSound, transform, 0.3f, 1f);
         }
         else
         {
             resultPanel.GetComponent<ResultPanelController>().UpdateResultPanel(ColorPalette._instance.redLight,
-                ColorPalette._instance.redDark, PlayerManager._instance.score, "Operation interrupted");
+                ColorPalette._instance.redDark, PlayerManager._instance.score, "All Operations Blocked");
 
             SoundFXManager._instance.PlaySoundFXClipOneShot(loseSound, transform, 0.3f, 1f);
 
             Utility.DestroyAllChildren(securityProtocolsHolder);
+            Utility.DestroyAllChildren(exploitsHolder);
             activeSecurityProtocols.Clear();
-            securityProtocolsHolder.SetActive(false);
+            activeExploits.Clear();
+
             PlayerManager._instance.nextTime = 30f;
             PlayerManager._instance.score = 0;
             PlayerManager._instance.UpdateVisuals();
@@ -424,6 +428,11 @@ public class GameMaster : MonoBehaviour
         activeColumn = 0;
         HandleMatrixValuesInteractability();
 
+        //Activate security protocols
+        if (level == 5)
+        {
+            securityProtocolsPanel.SetActive(true);
+        }
 
         //Activate security protocols
         if (activeExploits.Count > 0)
@@ -431,15 +440,11 @@ public class GameMaster : MonoBehaviour
             exploitsHolder.SetActive(true);
         }
 
-        //Activate security protocols
-        if (level == 5)
-        {
-            securityProtocolsPanel.SetActive(true);
-        }
-
-        if (level % 5 == 0 && activeSecurityProtocols.Count <= 2)
+        if (level % 5 == 0 && activeSecurityProtocols.Count < PlayerManager._instance.limitSecurityProtocols)
         {
             generator.GenerateSecurityProtocols(securityProtocolsPrefabs);
+            securityProtocolsCounterText.text = 
+                (activeSecurityProtocols.Count) + "/" + GetComponent<PlayerManager>().limitSecurityProtocols;
         }
 
         //Security protocols

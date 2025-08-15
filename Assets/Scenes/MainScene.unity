@@ -1859,6 +1859,7 @@ MonoBehaviour:
   - {fileID: 1174945142098348607, guid: a75a317ec70471341b7d3ba61b4ae39d, type: 3}
   - {fileID: 7895838878769207602, guid: 41f0d298dd9072b4db07b4eb2fff9519, type: 3}
   - {fileID: 3919851697943851223, guid: 500ef577a3d766848af1425512e62669, type: 3}
+  - {fileID: 5479293351532128649, guid: a821b9d21c821c8469b53bc99d1832ff, type: 3}
   exploitsPrefabs:
   - {fileID: 7347168644543671380, guid: 2b94ffd17e69ed347a0a5e3075c8a295, type: 3}
   - {fileID: 7347168644543671380, guid: d298c066639425049a70ce6021233afe, type: 3}
@@ -1873,6 +1874,7 @@ MonoBehaviour:
   exploitsCounterText: {fileID: 485124474}
   securityProtocolsCounterText: {fileID: 786731556}
   securityProtocolsPanel: {fileID: 277473708}
+  exploitsPanel: {fileID: 1635163796}
   mainPanel: {fileID: 1418786538}
   resultPanel: {fileID: 2055409321}
   highScorePanel: {fileID: 1032656196}

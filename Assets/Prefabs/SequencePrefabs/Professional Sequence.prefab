@@ -240,7 +240,7 @@ MonoBehaviour:
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
-  lowerThreshold: 6
+  lowerThreshold: 5
   upperThreshold: 7
   iconSprite: {fileID: 21300000, guid: fd06840d32b24d3458eb2ec5e81c91d2, type: 3}
   seqName: Datamine.V4
