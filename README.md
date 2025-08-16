@@ -15,7 +15,7 @@ Built with Unity and deployed via WebGL.
 ---
 
 ### Screenshot
-![Breach Protocol Screenshot](./613307e0-c00e-4c9b-a21b-29b931a2f0d7.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/59f1623a-5cb8-4704-bb2f-34ce0cfaf1ff" />
 
 ---
 
@@ -51,7 +51,7 @@ Play the latest version here:
 ---
 
 ### Скриншот
-![Breach Protocol Screenshot](./613307e0-c00e-4c9b-a21b-29b931a2f0d7.png)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/59f1623a-5cb8-4704-bb2f-34ce0cfaf1ff" />
 
 ---
 
