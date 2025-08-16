@@ -13,6 +13,7 @@ public class TimerController : MonoBehaviour
     [SerializeField] public TextMeshProUGUI timerText;
     [SerializeField] public GameObject timerBar;
     [SerializeField] public AudioClip timerSound;
+    [SerializeField] public bool paused = false;
     [HideInInspector] public AudioSource timerAudioSource;
     
     
@@ -49,6 +50,13 @@ public class TimerController : MonoBehaviour
 
         while (currentTime > 0)
         {
+            // Pause timer countdown
+            if (paused)
+            {
+                yield return null;
+                continue;
+            }
+            
             // Update the Text component with the current time
             timerText.text = currentTime.ToString("F2"); // Display time with two decimal place
 

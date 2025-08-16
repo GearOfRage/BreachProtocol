@@ -242,7 +242,7 @@ MonoBehaviour:
   sequenceState: 0
   lowerThreshold: 5
   upperThreshold: 7
-  iconSprite: {fileID: 21300000, guid: fd06840d32b24d3458eb2ec5e81c91d2, type: 3}
+  iconSprite: {fileID: 21300000, guid: a0135d3d7877447489d082d5ff40bce5, type: 3}
   seqName: Datamine.V4
   desc: "Extract 1500 \u20AC$"
   imageObj: {fileID: 1822771665597208902}

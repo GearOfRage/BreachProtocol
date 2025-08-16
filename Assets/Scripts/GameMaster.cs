@@ -34,12 +34,14 @@ public class GameMaster : MonoBehaviour
     public GameObject matrixHolder;
 
     [SerializeField] public GameObject sequencesHolder;
+    [HideInInspector] private RectTransform sequencesHolderDefaultSize;
     [SerializeField] public GameObject securityProtocolsHolder;
     [SerializeField] public GameObject exploitsHolder;
 
     [SerializeField] public TextMeshProUGUI exploitsCounterText;
     [SerializeField] public TextMeshProUGUI securityProtocolsCounterText;
 
+    [SerializeField] public GameObject helpPanel;
     [SerializeField] public GameObject securityProtocolsPanel;
     [SerializeField] public GameObject exploitsPanel;
     [SerializeField] public GameObject mainPanel;
@@ -98,9 +100,11 @@ public class GameMaster : MonoBehaviour
         sequencesPrefabs.Add(advancedSequencePrefab);
         sequencesPrefabs.Add(expertSequencePrefab);
         generator.GenerateAll();
-
+        
         horizontalDefaultPosition = horizontalHighlight.transform.localPosition;
         sequenceHighlightDefaultPosition = sequenceHighlight.transform.localPosition;
+
+        sequencesHolderDefaultSize = sequencesHolder.GetComponent<RectTransform>();
 
         HandleMatrixValuesInteractability();
 
@@ -120,18 +124,29 @@ public class GameMaster : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F2) && isBreachEnded)
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             if (highScorePanel.activeInHierarchy)
             {
-                mainPanel.SetActive(true);
-                highScorePanel.SetActive(false);
+                CloseHighscorePanel();
             }
             else
             {
-                mainPanel.SetActive(false);
-                highScorePanel.SetActive(true);
-                highScorePanel.GetComponent<HighScorePanel>().UpdateVisuals();
+                CloseHelpPanel();
+                OpenHighscorePanel();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (helpPanel.activeInHierarchy)
+            {
+                CloseHelpPanel();
+            }
+            else
+            {
+                CloseHighscorePanel();
+                OpenHelpPanel();
             }
         }
     }
@@ -443,7 +458,7 @@ public class GameMaster : MonoBehaviour
         if (level % 5 == 0 && activeSecurityProtocols.Count < PlayerManager._instance.limitSecurityProtocols)
         {
             generator.GenerateSecurityProtocols(securityProtocolsPrefabs);
-            securityProtocolsCounterText.text = 
+            securityProtocolsCounterText.text =
                 (activeSecurityProtocols.Count) + "/" + GetComponent<PlayerManager>().limitSecurityProtocols;
         }
 
@@ -456,5 +471,32 @@ public class GameMaster : MonoBehaviour
                 item.Effect();
             }
         }
+    }
+
+    // Help panel interaction
+    public void OpenHelpPanel()
+    {
+        helpPanel.SetActive(true);
+        GetComponent<TimerController>().paused = true;
+    }
+
+    public void CloseHelpPanel()
+    {
+        helpPanel.SetActive(false);
+        GetComponent<TimerController>().paused = false;
+    }
+    
+    // Highscore panel interaction
+    public void OpenHighscorePanel()
+    {
+        highScorePanel.SetActive(true);
+        GetComponent<TimerController>().paused = true;
+        highScorePanel.GetComponent<HighScorePanel>().UpdateVisuals();
+    }
+
+    public void CloseHighscorePanel()
+    {
+        highScorePanel.SetActive(false);
+        GetComponent<TimerController>().paused = false;
     }
 }

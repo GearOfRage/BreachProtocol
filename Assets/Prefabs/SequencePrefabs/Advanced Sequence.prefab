@@ -241,7 +241,7 @@ MonoBehaviour:
   sequenceState: 0
   lowerThreshold: 3
   upperThreshold: 5
-  iconSprite: {fileID: 21300000, guid: 131b4e5bafc5ce1439d2d9aea364d888, type: 3}
+  iconSprite: {fileID: 21300000, guid: 27f0bcc4fd42d3848a1be334d1db2ef7, type: 3}
   seqName: Datamine.V2
   desc: "Extract 250 \u20AC$ and Restores 15 s."
   imageObj: {fileID: 1822771665597208902}

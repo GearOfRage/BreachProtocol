@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed7ab51dc80dd74ba56f3c08bd9f9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protocolIcon: {fileID: 0}
+  protocolIcon: {fileID: 21300000, guid: 3709b04ae7e3c9f46a28826d2565e060, type: 3}
   protocolName: Active search
   protocolDesc: Timer starts immediately
   protocolIconObj: {fileID: 2061049335692669834}

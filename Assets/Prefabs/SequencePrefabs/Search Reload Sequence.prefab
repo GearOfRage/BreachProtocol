@@ -225,7 +225,7 @@ MonoBehaviour:
   sequenceState: 0
   lowerThreshold: 4
   upperThreshold: 4
-  iconSprite: {fileID: 0}
+  iconSprite: {fileID: 21300000, guid: efe989bb20eae2245a4cc10a59f3ffe2, type: 3}
   seqName: Search Reload
   desc: Next breach will start with the max time
   imageObj: {fileID: 1822771665597208902}

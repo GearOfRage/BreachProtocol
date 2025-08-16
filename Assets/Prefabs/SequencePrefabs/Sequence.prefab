@@ -395,7 +395,7 @@ MonoBehaviour:
   sequenceState: 0
   lowerThreshold: 2
   upperThreshold: 2
-  iconSprite: {fileID: 0}
+  iconSprite: {fileID: 21300000, guid: d5771f7db5f306641a5df9c035aae749, type: 3}
   seqName: DefSeqName
   desc: DefSeqDesc
   imageObj: {fileID: 7597264177642167898}

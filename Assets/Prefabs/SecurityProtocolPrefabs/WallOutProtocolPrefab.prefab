@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9cf3db31886de46b12566c9dbf6a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protocolIcon: {fileID: 0}
+  protocolIcon: {fileID: 21300000, guid: 66b967ff061fb854eae1f5dfba2e9449, type: 3}
   protocolName: Wall Out
   protocolDesc: Blocks two codes columns
   protocolIconObj: {fileID: 4229569766080399714}

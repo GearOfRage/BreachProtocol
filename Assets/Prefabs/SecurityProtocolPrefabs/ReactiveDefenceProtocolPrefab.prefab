@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ef9c1074bcd764489aadd63d95755d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protocolIcon: {fileID: 0}
+  protocolIcon: {fileID: 21300000, guid: 292870d830ca641419f3235e4de3fe2a, type: 3}
   protocolName: Reactive Defence
   protocolDesc: Using buffer blocks two codes
   protocolIconObj: {fileID: 7009792014188421255}

@@ -12,6 +12,10 @@ PrefabInstance:
       value: One daemon is permanently blocked
       objectReference: {fileID: 0}
     - target: {fileID: 4384768512664061558, guid: a26b703274bfcde49947000f3e24bd25, type: 3}
+      propertyPath: protocolIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 24b5c38f6e72aba42a1d0ee77fd28fea, type: 3}
+    - target: {fileID: 4384768512664061558, guid: a26b703274bfcde49947000f3e24bd25, type: 3}
       propertyPath: protocolName
       value: Known Threat
       objectReference: {fileID: 0}
@@ -101,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5645017908345150065, guid: a26b703274bfcde49947000f3e24bd25, type: 3}
       propertyPath: m_Name
-      value: KnownThreatProtocol
+      value: KnownThreatProtocolPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a26b703274bfcde49947000f3e24bd25, type: 3}
