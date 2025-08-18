@@ -245,6 +245,7 @@ MonoBehaviour:
   currentLenght: 2
   isCompleted: 0
   sequenceState: 0
+  defaultHolderPosition: {x: 0, y: 0, z: 0}
   lowerThreshold: 4
   upperThreshold: 5
   iconSprite: {fileID: 21300000, guid: f17c120a45f3590459e617b96b178769, type: 3}

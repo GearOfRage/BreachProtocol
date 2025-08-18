@@ -27,8 +27,12 @@ public class Sequence : MonoBehaviour
 
     [HideInInspector] public bool isCompleted = false;
     [HideInInspector] public SequenceState sequenceState = SequenceState.InProgress;
+    [HideInInspector] public Vector3 defaultHolderPosition;
 
-    [Header("Required to fill")] [Header("Threshold")]
+    public Action<GameObject> OnGenerate;
+
+    [Header("Required to fill")] 
+    [Header("Threshold")] 
     [SerializeField] private int lowerThreshold = 2;
     [SerializeField] private int upperThreshold = 2;
 
@@ -60,17 +64,21 @@ public class Sequence : MonoBehaviour
         {
             GameObject newSequenceValue =
                 Instantiate(GameMaster._instance.sequenceValuePrefab, valueHolderObj.transform);
+
             sequenceValues.Add(newSequenceValue.GetComponent<SequenceValue>());
 
             newSequenceValue.GetComponent<SequenceValue>().value =
                 gen.selectedCombinations[Random.Range(0, gen.selectedCombinations.Count)];
         }
+
+        defaultHolderPosition = valueHolderObj.transform.localPosition;
     }
 
     public void ChangeThreshold(int shift)
     {
         lowerThreshold = Mathf.Clamp(lowerThreshold + shift, minLenght, maxLenght);
         upperThreshold = Mathf.Clamp(upperThreshold + shift, minLenght, maxLenght);
+        GenerateSequenceValues();
     }
 
     public void ChangeToPositive()
@@ -120,7 +128,7 @@ public class Sequence : MonoBehaviour
         {
             return;
         }
-        
+
         if (sequenceState == SequenceState.InProgress)
         {
             HandlePositionChange(50f);
@@ -138,12 +146,13 @@ public class Sequence : MonoBehaviour
                     {
                         foreach (SequenceValue itemJ in sequenceValues)
                         {
-                            if(!itemJ.b.interactable)
+                            if (!itemJ.b.interactable)
                             {
                                 HandlePositionChange(50f);
                                 itemJ.DropValue();
                             }
                         }
+
                         pickedCounter = 0;
                         if (sequenceValues[0].value == matrixValue.value)
                         {
@@ -193,8 +202,12 @@ public class Sequence : MonoBehaviour
         valueHolderObj.transform.localPosition = move;
     }
 
+    public void MoveToDefaultPosition()
+    {
+        valueHolderObj.transform.localPosition = defaultHolderPosition;
+    }
+
     public virtual void Effect()
     {
-        
     }
 }

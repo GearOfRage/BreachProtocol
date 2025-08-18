@@ -109,8 +109,10 @@ public class GameMaster : MonoBehaviour
         HandleMatrixValuesInteractability();
 
         Utility.DestroyAllChildren(securityProtocolsHolder);
+        securityProtocolsHolder.SetActive(false);
         Utility.DestroyAllChildren(exploitsHolder);
-
+        exploitsHolder.SetActive(false);
+        
         //Security protocols
         //Only for immediate effects
         if (activeSecurityProtocols.Count > 0)
@@ -124,7 +126,7 @@ public class GameMaster : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             if (highScorePanel.activeInHierarchy)
             {
@@ -137,7 +139,7 @@ public class GameMaster : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             if (helpPanel.activeInHierarchy)
             {
@@ -408,16 +410,17 @@ public class GameMaster : MonoBehaviour
         horizontalHighlight.SetActive(true);
         verticalHighlight.SetActive(false);
 
+        generator.GenerateAll();
+        
         //Exploits Effects        
         if (activeExploits.Count > 0)
         {
             foreach (Exploit item in activeExploits)
             {
                 item.RepeatEffect();
+                item.OnSequenceGeneration();
             }
         }
-
-        generator.GenerateAll();
 
         TimerController._instance.timerBar.GetComponent<Image>().fillAmount = 1f;
         TimerController._instance.timerText.text = PlayerManager._instance.nextTime.ToString("F2");
@@ -436,7 +439,7 @@ public class GameMaster : MonoBehaviour
         PlayerManager._instance.currentTime = PlayerManager._instance.nextTime;
 
         horizontalHighlight.transform.localPosition = horizontalDefaultPosition;
-        sequenceHighlight.transform.localPosition = sequenceHighlightDefaultPosition;
+        MoveSequenceHighlight();
 
         line = Line.Horizontal;
         activeRow = 0;
@@ -470,6 +473,15 @@ public class GameMaster : MonoBehaviour
             {
                 item.Effect();
             }
+        }
+    }
+
+    public void MoveSequenceHighlight()
+    {
+        sequenceHighlight.transform.localPosition = sequenceHighlightDefaultPosition;
+        foreach (Sequence item in activeSequences)
+        {
+            item.MoveToDefaultPosition();
         }
     }
 
